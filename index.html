@@ -1,4 +1,4 @@
-
+```html id="standingdolls"
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,12 +12,15 @@ body {
     background: linear-gradient(120deg, #ff9a9e, #fad0c4);
     height: 100vh;
     color: white;
+    overflow: hidden;
 }
 
+/* Title */
 h1 {
-    margin-top: 40px;
+    margin-top: 30px;
 }
 
+/* Input */
 .input-box {
     margin-top: 20px;
 }
@@ -35,15 +38,48 @@ button {
     cursor: pointer;
 }
 
+/* Output */
 #result {
     margin-top: 30px;
     font-size: 28px;
 }
 
-/* Countdown style */
 #countdown {
-    margin-top: 30px;
+    margin-top: 20px;
     font-size: 25px;
+}
+
+/* 🧍‍♀️ Standing dolls */
+.doll {
+    position: absolute;
+    bottom: 0;
+    font-size: 120px;
+}
+
+/* Left doll */
+.left {
+    left: 5%;
+}
+
+/* Right doll */
+.right {
+    right: 5%;
+}
+
+/* Cake in hands */
+.cake {
+    position: absolute;
+    bottom: 120px;
+    font-size: 60px;
+}
+
+/* Cake positions */
+.left-cake {
+    left: 8%;
+}
+
+.right-cake {
+    right: 8%;
 }
 </style>
 </head>
@@ -77,8 +113,20 @@ button {
 <div id="result"></div>
 <div id="countdown"></div>
 
+<!-- 🧍‍♀️ Standing Dolls -->
+<div class="doll left">👧</div>
+<div class="doll right">👧</div>
+
+<!-- 🎂 Cakes in hands -->
+<div class="cake left-cake">🎂</div>
+<div class="cake right-cake">🎂</div>
+
 <script>
+let interval;
+
 function checkBirthday() {
+
+    clearInterval(interval);
 
     let day = document.getElementById("day").value;
     let month = document.getElementById("month").value;
@@ -90,31 +138,32 @@ function checkBirthday() {
 
     let today = new Date();
 
-    // 🎂 If today is birthday
-    if (
-        today.getDate() == day &&
-        today.getMonth() == month
-    ) {
+    if (today.getDate() == day && today.getMonth() == month) {
         document.getElementById("result").innerHTML = "🎂 Happy Birthday 🎂";
         document.getElementById("countdown").innerHTML = "";
         return;
     }
 
-    // ⏳ Else → start countdown
     document.getElementById("result").innerHTML = "🎉 Not today! Countdown started ⏳";
 
     let year = today.getFullYear();
     let nextBirthday = new Date(year, month, day);
 
-    // if already passed → next year
     if (nextBirthday < today) {
         nextBirthday.setFullYear(year + 1);
     }
 
-    setInterval(function() {
+    interval = setInterval(function() {
 
         let now = new Date().getTime();
         let diff = nextBirthday - now;
+
+        if (diff <= 0) {
+            clearInterval(interval);
+            document.getElementById("result").innerHTML = "🎂 Happy Birthday 🎂";
+            document.getElementById("countdown").innerHTML = "";
+            return;
+        }
 
         let d = Math.floor(diff / (1000 * 60 * 60 * 24));
         let h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -130,4 +179,4 @@ function checkBirthday() {
 
 </body>
 </html>
-
+```
